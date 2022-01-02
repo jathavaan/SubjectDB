@@ -1,6 +1,6 @@
 import datetime
 
-from sqlalchemy import create_engine, MetaData, Column, Integer, String, DateTime, ForeignKey
+from sqlalchemy import create_engine, MetaData, Column, Integer, String, DateTime, ForeignKey, Boolean
 from sqlalchemy.orm import sessionmaker, declarative_base, relationship
 
 import model.validation_classes as vc
@@ -35,10 +35,12 @@ class User(Base):
     dob = Column(DateTime, nullable=False)
     email = Column(String(100), nullable=False)
     password = Column(String(100), nullable=False)
+    is_admin = Column(Boolean, nullable=False, default=False)
+
     subjects = relationship('Subject', secondary='user_has_subject')
 
-    def __init__(self, first_name: str, surname: str, dob: datetime, email: str, password: str):
-        user = vc.User(first_name, surname, dob, email, password)
+    def __init__(self, first_name: str, surname: str, dob: datetime, email: str, password: str, is_admin=False):
+        user = vc.User(first_name, surname, dob, email, password, is_admin)
 
         self.first_name = user.get_first_name()
         self.surname = user.get_surname()
@@ -53,7 +55,8 @@ class User(Base):
                f"surname={self.surname}, " \
                f"dob={self.dob}, " \
                f"email={self.email}, " \
-               f"password={self.password}" \
+               f"password={self.password}, " \
+               f"is_admin={self.is_admin}" \
                f")>"
 
 
@@ -63,8 +66,6 @@ class Subject(Base):
     subject_id = Column(Integer, primary_key=True, autoincrement=True)
     subject_code = Column(String(100), nullable=False)
     subject_name = Column(String(100), nullable=True)
-
-    # users = relationship('User', secondary='user_has_subject')
 
     def __init__(self, subject_code: str, subject_name: str):
         subject = vc.Subject(subject_code, subject_name)

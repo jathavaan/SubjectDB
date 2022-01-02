@@ -51,7 +51,7 @@ class Insert:
     def __init__(self):
         self.r = Retrieve()
 
-    def insert_user(self, first_name, surname, dob, email, password):
+    def insert_user(self, first_name, surname, dob, email, password, is_admin):
         """
         Adds user to user table as long as the user have an unique email.
         Returns True if data was added successfully
@@ -63,7 +63,7 @@ class Insert:
         if len(self.r.retrieve_users_by_email(email)) > 0:
             return False
 
-        user = User(first_name, surname, dob, email, password)
+        user = User(first_name, surname, dob, email, password, is_admin)
 
         session.add(user)
         session.commit()

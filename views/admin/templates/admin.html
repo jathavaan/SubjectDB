@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %}Admin{% endblock %}
+{% block content %}
+
+<h1>Welcome, {{session['first_name']}} {{session['surname']}}</h1>
+
+<div class="message">
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <p>{{message}}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</div>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>E-mail</th>
+        <th>Given name</th>
+        <th>Surname</th>
+        <th>Date of birth</th>
+        <th>Access</th>
+    </tr>
+    {% for user in users %}
+        <tr>
+            <td>{{user.user_id}}</td>
+            <td>{{user.email}}</td>
+            <td>{{user.first_name}}</td>
+            <td>{{user.surname}}</td>
+            <td>{{user.dob.strftime('%d-%m-%Y')}}</td>
+            {% if user.is_admin == 1 %}
+                <td>Administrator</td>
+            {% else %}
+                <td>User</td>
+            {% endif %}
+        </tr>
+    {% endfor %}
+</table>
+
+<table>
+    <tr>
+        <th>Subject Code</th>
+        <th>Subject name</th>
+    </tr>
+    {% for subject in subjects %}
+        <tr>
+            <td>{{subject.subject_code}}</td>
+            <td>{{subject.subject_name}}</td>
+        </tr>
+    {% endfor %}
+</table>
+{% endblock %}
