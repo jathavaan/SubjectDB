@@ -3,18 +3,20 @@ from datetime import datetime
 
 
 class User:
-    def __init__(self, first_name: str, surname: str, dob: datetime, email: str, password: str):
+    def __init__(self, first_name: str, surname: str, dob: datetime, email: str, password: str, is_admin=False):
         self.__first_name = None
         self.__surname = None
         self.__dob = None
         self.__email = None
         self.__password = None
+        self.__is_admin = is_admin
 
         self.set_first_name(first_name)
         self.set_surname(surname)
         self.set_dob(dob)
         self.set_email(email)
         self.set_password(password)
+        self.set_admin(is_admin)
 
     def get_first_name(self) -> str:
         return self.__first_name
@@ -50,6 +52,18 @@ class User:
     def set_password(self, password: str):
         self.__validate_password(password)
         self.__password = password
+
+    def set_admin(self, is_admin: bool):
+        if not isinstance(is_admin, bool):
+            raise TypeError("Invalid datatype for admin state.")
+
+        self.__is_admin = is_admin
+
+    def get_admin(self) -> bool:
+        return self.__is_admin
+
+
+
 
     def __validate_first_name(self, first_name: str):
         """Validation for first name"""

@@ -1,0 +1,8 @@
+INSERT INTO "main"."grades" ("grade_id", "grade_value") VALUES ('1', 'Ongoing');
+INSERT INTO "main"."grades" ("grade_id", "grade_value") VALUES ('2', 'A');
+INSERT INTO "main"."grades" ("grade_id", "grade_value") VALUES ('3', 'B');
+INSERT INTO "main"."grades" ("grade_id", "grade_value") VALUES ('4', 'C');
+INSERT INTO "main"."grades" ("grade_id", "grade_value") VALUES ('5', 'D');
+INSERT INTO "main"."grades" ("grade_id", "grade_value") VALUES ('6', 'E');
+INSERT INTO "main"."grades" ("grade_id", "grade_value") VALUES ('7', 'Pass');
+INSERT INTO "main"."grades" ("grade_id", "grade_value") VALUES ('8', 'Fail');

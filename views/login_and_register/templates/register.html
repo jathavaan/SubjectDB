@@ -1,21 +1,34 @@
 {% extends 'base.html' %}
 {% block title %}Register{% endblock %}
+
+{% block navbar_links %}
+<li>
+    <a href="{{url_for('login_and_register.user_login')}}">Login</a>
+</li>
+<li>
+    <a href="{{url_for('login_and_register.user_register')}}">Register</a>
+</li>
+{% endblock %}
+
+
 {% block content %}
-<form method="post">
-    <input type="text" name="firstName" placeholder="Given name" required>
-    <input type="text" name="surname" placeholder="Surname" required>
-    <input type="date" name="dob" placeholder="Date of birth" required>
-    <input type="email" name="email" placeholder="E-mail" required>
-    <input type="password" name="password" placeholder="Password" required>
-    <input type="submit" value="Register">
-</form>
-<div class="message">
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            {% for message in messages %}
-                <p>{{message}}</p>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
+<div class="general-form">
+    <form method="post">
+        <input type="text" name="firstName" placeholder="Given name" required>
+        <input type="text" name="surname" placeholder="Surname" required>
+        <input type="date" name="dob" placeholder="Date of birth" required>
+        <input type="email" name="email" placeholder="E-mail" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <input type="submit" value="Register">
+    </form>
+    <div class="message">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <p>{{message}}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
 </div>
 {% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Profile{% endblock %}
+
+{% block navbar_links %}
+<li>
+    <a href="{{url_for('user.subjects')}}">Subjects</a>
+</li>
+<li>
+    <a href="{{url_for('user.profile')}}">Profile</a>
+</li>
+{% endblock %}
+
+{% block greeting %}
+<div class="big-greeting">
+    <h1>Welcome, {{session['first_name']}} {{session['surname']}}</h1>
+
+    <div class="message">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <p>{{message}}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <div id="scroll">
+        <img src="{{url_for('static', filename='images/icons/expand.svg')}}" alt="Scroll">
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+{% endblock %}
+
+

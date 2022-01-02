@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="subjectDB" uuid="6fdbc932-b055-4c8e-8d47-4bde4c01a264">
+    <data-source source="LOCAL" name="subjectDB" uuid="f387a47f-3b0b-4314-a5cb-a72f2e701c81">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\Users\jatha\PycharmProjects\SubjectDB\model\db\subjectDB</jdbc-url>
+      <jdbc-url>jdbc:sqlite:C:\Users\jatha\PycharmProjects\SubjectDB\subjectDB</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
       <libraries>
         <library>

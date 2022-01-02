@@ -1,6 +1,8 @@
-from flask import Flask, render_template, session, redirect, url_for
+from flask import Flask, session, redirect, url_for, flash
 
+from views.admin.admin import admin
 from views.login_and_register.login_and_register import login_and_register
+from views.user.user import user
 
 app = Flask(__name__)
 
@@ -9,15 +11,23 @@ app.secret_key = 'trx0rua*TZU-tkm6ren'
 
 # Registering blueprints
 app.register_blueprint(login_and_register, url_prefix="/")
+app.register_blueprint(admin, url_prefix="/admin")
+app.register_blueprint(user, url_prefix="/")
 
 
 @app.route("/")
 @app.route("/home/")
 def home():
-    if 'email' not in session:
-        return redirect(url_for('login_and_register.user_login'))
-    else:
-        return render_template('index.html')
+    return redirect(url_for('login_and_register.user_login'))
+
+
+@app.route('/logout')
+def logout():
+    if 'email' in session:
+        session.clear()
+        flash('Logged out')
+
+    return redirect(url_for('login_and_register.user_login'))
 
 
 if __name__ == "__main__":

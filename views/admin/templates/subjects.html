@@ -1,0 +1,30 @@
+{% extends 'admin_base.html' %}
+{% block title %}Admin - Subjects{% endblock %}
+
+{% block content %}
+<h1>Subjects</h1>
+
+<div class="controls">
+    <form method="post">
+        <input type="text" name="search-query" minlength="3" placeholder="Search">
+        <input type="submit" value="Search">
+    </form>
+
+    <button type="button" class="control-btn">Edit</button>
+    <button type="button" class="control-btn">Add</button>
+    <button type="button" class="control-btn">Delete</button>
+</div>
+
+<table class="table" id="admin-subject-table">
+    <tr>
+        <th>Subject Code</th>
+        <th>Subject name</th>
+    </tr>
+    {% for subject in subjects %}
+        <tr>
+            <td>{{subject.subject_code}}</td>
+            <td>{{subject.subject_name}}</td>
+        </tr>
+    {% endfor %}
+</table>
+{% endblock %}

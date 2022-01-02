@@ -4,7 +4,6 @@ from flask import Blueprint, session, render_template, request, flash, g, redire
 from jinja2 import Markup
 
 from model.db.alter_database import Retrieve, Insert
-from model.validation_classes import User
 
 login_and_register = Blueprint('login_and_register', __name__, static_folder="static", template_folder="templates")
 
@@ -16,6 +15,7 @@ ins = Insert()
 def user_login():
     if 'email' in session:
         session.pop('email', None)
+        flash("You have been logged out. Please log in again.")
 
     if request.method == 'POST':
         email = request.form.get('email')
@@ -36,11 +36,16 @@ def user_login():
             user = users[0]
 
             if user.email == email and user.password == password:
-                session['email'] = email
-                g.user = user
 
-                flash("Logged in")
-                return render_template('login.html')
+                session['email'] = email  # Adding email to session
+                g.user = user  # Adding user object to g
+
+                if g.user.is_admin:
+                    flash("Logged in as admin")
+                    return redirect(url_for('admin.admin_subjects'))
+                else:
+                    flash("Logged in")
+                    return redirect(url_for('user.subjects'))
             else:
                 flash("Incorrect password")
                 return render_template('login.html')
@@ -59,14 +64,14 @@ def user_register():
         dob = request.form.get('dob')
 
         year, month, day = dob.split('-')
-        dob = datetime(int(year), int(month), int(day)) # Converting dob-string to a datetime object
+        dob = datetime(int(year), int(month), int(day))  # Converting dob-string to a datetime object
 
         email = request.form.get('email')
         password = request.form.get('password')
 
         try:
-            if ins.insert_user(first_name, surname, dob, email, password):
-                flash("Registered user!")
+            if ins.insert_user(first_name, surname, dob, email, password, False):
+                flash("User registered!")
                 return redirect(url_for('login_and_register.user_login'))
             else:
                 # This does not work properly

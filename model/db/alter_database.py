@@ -1,6 +1,6 @@
-from datetime import datetime
+from sqlalchemy import or_
 
-from model.db.database import Subject, session, User, UserHasSubject
+from model.db.database import Subject, session, User, UserHasSubject, Grade
 
 
 class Retrieve:
@@ -39,11 +39,72 @@ class Retrieve:
 
         return subjects
 
-    def retrieve_user_has_subject(self):
-        results = session.query(UserHasSubject)
+    def search_user_subjects(self, user_id: int, query: str):
+        if not isinstance(user_id, int):
+            raise TypeError("Invalid datatype for user ID.")
+
+        if not isinstance(query, str):
+            raise TypeError("Invalid datatype for query.")
+
+        if len(query) < 3:
+            raise ValueError("Please write three or more letters to search.")
+
+        results = session.query(UserHasSubject, User, Subject, Grade) \
+            .join(User) \
+            .join(Subject) \
+            .join(Grade) \
+            .filter(or_(
+            Subject.subject_code.like('%' + query + '%'),
+            Subject.subject_name.like('%' + query + '%')
+        )) \
+            .all()
+
+        results = [result for result in results]
+        return results
+
+    def retrieve_user_subjects(self, user_id: int):
+        if not isinstance(user_id, int):
+            raise TypeError("Invalid datatype for user ID.")
+
+        results = session.query(UserHasSubject, User, Subject, Grade) \
+            .join(User) \
+            .join(Subject) \
+            .join(Grade) \
+            .filter(User.user_id == user_id) \
+            .all()
+
         results = [result for result in results]
 
         return results
+
+    def search_subjects(self, query: str):
+        if not isinstance(query, str):
+            raise TypeError("Invalid datatype for query.")
+
+        if len(query) < 3:
+            raise ValueError("Please write three or more letters to search.")
+
+        results = session.query(Subject) \
+            .filter(or_(
+                Subject.subject_code.like('%' + query + '%'),
+                Subject.subject_name.like('%' + query + '%')
+            )) \
+            .all()
+
+        results = [result for result in results]
+        return results
+
+    def retrieve_user_has_subject(self):
+        results = session.query(UserHasSubject).all()
+        results = [result for result in results]
+
+        return results
+
+    def retrieve_grades(self):
+        grades = session.query(Grade).all()
+        grades = [grade for grade in grades]
+
+        return grades
 
 
 class Insert:
@@ -51,7 +112,7 @@ class Insert:
     def __init__(self):
         self.r = Retrieve()
 
-    def insert_user(self, first_name, surname, dob, email, password):
+    def insert_user(self, first_name, surname, dob, email, password, is_admin):
         """
         Adds user to user table as long as the user have an unique email.
         Returns True if data was added successfully
@@ -63,7 +124,7 @@ class Insert:
         if len(self.r.retrieve_users_by_email(email)) > 0:
             return False
 
-        user = User(first_name, surname, dob, email, password)
+        user = User(first_name, surname, dob, email, password, is_admin)
 
         session.add(user)
         session.commit()
@@ -87,9 +148,10 @@ class Insert:
 
         return True
 
-    def insert_link(self, user_id: int, subject_id):
+    def insert_link(self, user_id: int, subject_id: int, grade_id=1):
         """
-        Adds to user_has_subject table. Checks if user already has added the subject to their database
+        Adds to user_has_subject table. Checks if user already has added the subject to their database.
+        Is also possible to add a grade
         Returns True if data was added successfully
         """
         if not isinstance(user_id, int):
@@ -98,12 +160,15 @@ class Insert:
         if not isinstance(subject_id, int):
             raise TypeError("Invalid datatype for subject ID.")
 
+        if not isinstance(grade_id, int):
+            raise TypeError("Invalid datatype for grade ID.")
+
         for link in self.r.retrieve_user_has_subject():
             # Checks if the subject and user combo has already been added to the database
             if link.user_id == user_id and link.subject_id == subject_id:
                 return False
 
-        link = UserHasSubject(user_id, subject_id)
+        link = UserHasSubject(user_id, subject_id, grade_id)
 
         session.add(link)
         session.commit()
@@ -167,14 +232,14 @@ class Delete:
             return deleted
 
         for link in links:
-            # Checks if the cause of link delete is a deleted user
+            # Checks if the cause of link-delete is a deleted user
             if user_id != 0:
                 if link.user_id == user_id:
                     session.delete(link)
                     session.commit()
                     deleted = True
 
-            # Checks if the cause of link delete is a deleted subject
+            # Checks if the cause of link-delete is a deleted subject
             if subject_id != 0:
                 if link.subject_id == subject_id:
                     session.delete(link)
@@ -183,11 +248,12 @@ class Delete:
 
         return deleted
 
+
 """
 i = Insert()
 print("INSERT")
+print(i.insert_user("Jathavaan", "Shankarr", datetime(2001, 7, 12), "jathavaan12@gmail.com", "Jathavaan12", True))
 print(i.insert_subject("TDT4100", "Objektorientert programmering"))
-print(i.insert_user("Jathavaan", "Shankarr", datetime(2001, 7, 12), "jathavaan12@gmail.com", "Jathavaan12"))
 print(i.insert_link(1, 1))
 
 print()
@@ -198,4 +264,9 @@ print(d.delete_subject("TDT4100"))
 print(d.delete_user("jathavaan12@gmail.com"))
 
 print()
+
+r = Retrieve()
+print("RETRIEVE")
+print(r.retrieve_user_subjects(1))
+print(r.retrieve_subject_search_results(1, "obj"))
 """

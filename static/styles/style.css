@@ -1,0 +1,210 @@
+/* 
+Color theme: https://monsterspost.com/pastel-color-schemes-for-refined-website-design/
+=> First color theme
+*/
+
+/* BASE STYLING */
+
+* {
+    padding: 0;
+    margin: 0;
+    font-size: 18px;
+
+    font-family: 'BioRhyme', serif;
+    font-family: 'Sora', sans-serif;
+    scroll-behavior: smooth;
+
+    box-sizing: content-box;
+    box-sizing: border-box;
+}
+
+
+:root {
+    --background-clr: #ebf2e9;
+    --text-clr: #214341;
+    --primary-clr: #79beb3;
+    --secondary-clr: #6e8573;
+}
+
+body {
+    background-color: var(--background-clr);
+    color: var(--text-clr);
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
+h1 {
+    font-size: 54px;
+}
+
+.container {
+    height: 100vh;
+    padding-top: 40px;
+    padding-left: 25%;
+    padding-right: 25%;
+}
+
+.without-greeting-container {
+    height: 90vh;
+    margin-top: 40px;
+}
+
+#menubar {
+    overflow: hidden;
+    background-color: var(--primary-clr);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#menubar ul {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    list-style-type: none;
+    padding-left: 0;
+}
+
+#menubar li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#menubar a {
+    color: var(--text-clr);
+    font-size: 18px;
+    text-decoration: none;
+    padding: 10px 20px;
+}
+
+#menubar a:hover {
+    color: var(--background-clr);
+}
+
+.table {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    width: 100%;
+}
+
+.table td, th {
+    padding: 5px 20px 5px 0px;
+    text-align: left;
+}
+
+.edit-btn {
+    background-color: transparent;
+    border: 0;
+    outline: 0;
+}
+
+.edit-btn:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+
+form {
+    padding: 0;
+}
+
+.big-greeting {
+    margin-top: 40px;
+    height: 96vh;
+    padding: 20px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--primary-clr);
+}
+
+.small-greeting {
+    margin-top: 40px;
+    height: 15vh;
+    padding: 20px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--primary-clr);
+}
+
+/* LOGIN AND REGISTER */
+
+.general-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 40px;
+    height: 100vh;
+}
+
+.general-form form {
+    display: flex;
+    justify-content: center;
+    align-items: left;
+    flex-direction: column;
+    width: 100%;
+}
+
+.general-form input, select, option {
+    padding: 10px 20px;
+    margin: 10px;
+    width: 100%;
+    text-align: center;
+    background-color: #ffffff;
+    border: 0;
+}
+
+.general-form input:focus {
+    outline: none;
+}
+
+.general-form input[type="submit"]:hover {
+    background-color: var(--secondary-clr);
+}
+
+/* Subjects */
+
+.controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.control-btn {
+    width: 20%;
+    background-color: transparent;
+    border: 0;
+    outline: none;
+}
+
+.control-btn:hover {
+    text-decoration: underline;
+}
+
+.control-link {
+    text-decoration: none;
+    color: var(--text-clr);
+}
+
+.control-link:hover {
+    text-decoration: underline;
+}
+
+/* Users */
+

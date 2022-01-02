@@ -1,0 +1,15 @@
+INSERT INTO "main"."subjects" ("subject_id", "subject_code", "subject_name") VALUES ('1', 'TDT4100', 'Objektorientert programmering');
+INSERT INTO "main"."subjects" ("subject_id", "subject_code", "subject_name") VALUES ('2', 'TDT4140', 'Informasjonsteknologi, Grunnkurs');
+INSERT INTO "main"."subjects" ("subject_id", "subject_code", "subject_name") VALUES ('3', 'TMT4112', 'Kjemi');
+INSERT INTO "main"."subjects" ("subject_id", "subject_code", "subject_name") VALUES ('4', 'TMA4100', 'Matematikk 1');
+INSERT INTO "main"."subjects" ("subject_id", "subject_code", "subject_name") VALUES ('5', 'TEP4225', 'Energi og mijø');
+INSERT INTO "main"."subjects" ("subject_id", "subject_code", "subject_name") VALUES ('6', 'TMA4105', 'Matematikk 2');
+INSERT INTO "main"."subjects" ("subject_id", "subject_code", "subject_name") VALUES ('7', 'EXPH0300', 'Exphil');
+INSERT INTO "main"."subjects" ("subject_id", "subject_code", "subject_name") VALUES ('8', 'TKT4116', 'Mekanikk 1');
+INSERT INTO "main"."subjects" ("subject_id", "subject_code", "subject_name") VALUES ('9', 'TMR4325', 'Ingeniørvitenskap og IKT, Introduksjon');
+INSERT INTO "main"."subjects" ("subject_id", "subject_code", "subject_name") VALUES ('10', 'TMA4140', 'Diskret matematikk');
+INSERT INTO "main"."subjects" ("subject_id", "subject_code", "subject_name") VALUES ('11', 'IT2805', 'Webteknologi');
+INSERT INTO "main"."subjects" ("subject_id", "subject_code", "subject_name") VALUES ('12', 'TDT4140', 'Programvareutvikling');
+INSERT INTO "main"."subjects" ("subject_id", "subject_code", "subject_name") VALUES ('13', 'TFY4105', 'Fysikk');
+INSERT INTO "main"."subjects" ("subject_id", "subject_code", "subject_name") VALUES ('14', 'TDT4240', 'Programvarearkitektur');
+INSERT INTO "main"."subjects" ("subject_id", "subject_code", "subject_name") VALUES ('15', 'TMA4245', 'Statistikk');

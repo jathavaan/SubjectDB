@@ -2,20 +2,33 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=BioRhyme:wght@300&family=Sora:wght@300&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="{{url_for('static', filename='styles/style.css')}}">
     <link rel="icon" href="{{url_for('static', filename='images/icons/school_black_24dp.svg')}}">
+    
     <title>SubjectDB | {% block title %}{% endblock %}</title>
 </head>
 <body>
     <nav id="menubar">
         <ul>
-            <a href="{{url_for('home')}}">Home</a>
-            <a href="{{url_for('login_and_register.user_login')}}">Login</a>
-            <a href="{{url_for('login_and_register.user_register')}}">Register</a>
+            <li>
+                <a href="{{url_for('home')}}">Home</a>
+            </li>
+            {% block navbar_links %}{% endblock %}
+            <li>
+                <a href="{{url_for('logout')}}">Log out</a>
+            </li>
         </ul>
     </nav>
 
-    {% block content %}{% endblock %}
+    {% block greeting %}{% endblock %}
+
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
 
     <footer id="footer">
 

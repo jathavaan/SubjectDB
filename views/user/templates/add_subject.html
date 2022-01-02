@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Subjects - Add{% endblock %}
+
+{% block greeting %}
+<div class="small-greeting">
+    <h1>Welcome, {{session['first_name']}} {{session['surname']}}</h1>
+
+    <div class="message">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <p>{{message}}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="general-form">
+    <form method="POST">
+        <select name="subject-select">
+            {% for subject in subjects %}
+                <option name="subject" value="{{subject.subject_id}}">{{subject.subject_code}} {{subject.subject_name}}</option>
+            {% endfor %}
+        </select>
+
+        <select name="grade-select">
+                {% for grade in grades %}
+                <option name="grade" value="{{grade.grade_id}}">{{grade.grade_value}}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="Add subject">
+    </form>
+</div>
+{% endblock %}

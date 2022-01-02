@@ -1,5 +1,11 @@
 {% extends 'base.html' %}
 {% block title %}Home{% endblock %}
+
+{% block navbar_links %}
+<a href="{{url_for('login_and_register.user_login')}}">Login</a>
+<a href="{{url_for('login_and_register.user_register')}}">Register</a>
+{% endblock %}
+
 {% block content %}
 <p>Index</p>
 {% endblock %}

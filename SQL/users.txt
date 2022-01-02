@@ -1,0 +1,4 @@
+INSERT INTO "main"."users" ("user_id", "first_name", "surname", "dob", "email", "password", "is_admin") VALUES ('1', 'Jathavaan', 'Shankarr', '2001-07-12 00:00:00.000000', 'jathavaan12@gmail.com', 'Jathavaan12', '1');
+INSERT INTO "main"."users" ("user_id", "first_name", "surname", "dob", "email", "password", "is_admin") VALUES ('2', 'Jonas', 'Store', '1972-03-12 00:00:00.000000', 'jonas@regjeringen.no', 'jonasLederNorge123', '0');
+INSERT INTO "main"."users" ("user_id", "first_name", "surname", "dob", "email", "password", "is_admin") VALUES ('3', 'Kong', 'Harald', '1939-09-08 00:00:00.000000', 'kongen@norge.no', 'vbKongenAvNorge123', '0');
+INSERT INTO "main"."users" ("user_id", "first_name", "surname", "dob", "email", "password", "is_admin") VALUES ('4', 'Not', 'Admin', '2001-07-12 00:00:00.000000', 'not@admin.com', 'notAdmin123', '0');
