@@ -1,12 +1,17 @@
 import datetime
 
-from sqlalchemy import create_engine, MetaData, Column, Integer, String, DateTime
-from sqlalchemy.orm import sessionmaker, declarative_base
+from sqlalchemy import create_engine, MetaData, Column, Integer, String, DateTime, ForeignKey
+from sqlalchemy.orm import sessionmaker, declarative_base, relationship
 
 import model.validation_classes as vc
 
-engine = create_engine('sqlite:///subjectDB')
-session = sessionmaker(autoflush=False, bind=engine)()
+engine = create_engine(
+    'sqlite:///subjectDB',
+    connect_args={'check_same_thread': False},
+    echo=True
+)
+
+session = sessionmaker(autoflush=True, bind=engine)()
 
 metadata = MetaData(
     naming_convention={
@@ -30,14 +35,14 @@ class User(Base):
     dob = Column(DateTime, nullable=False)
     email = Column(String(100), nullable=False)
     password = Column(String(100), nullable=False)
+    subjects = relationship('Subject', secondary='user_has_subject')
 
     def __init__(self, first_name: str, surname: str, dob: datetime, email: str, password: str):
-        user = vc.User(self.user_id, first_name, surname, dob, email, password)
+        user = vc.User(first_name, surname, dob, email, password)
 
-        self.user_id = user.get_user_id()
         self.first_name = user.get_first_name()
         self.surname = user.get_surname()
-        self.get_dob = user.get_dob()
+        self.dob = user.get_dob()
         self.email = user.get_email()
         self.password = user.get_password()
 
@@ -53,13 +58,16 @@ class User(Base):
 
 
 class Subject(Base):
+    """Subject table"""
     __tablename__ = 'subjects'
     subject_id = Column(Integer, primary_key=True, autoincrement=True)
     subject_code = Column(String(100), nullable=False)
     subject_name = Column(String(100), nullable=True)
 
+    # users = relationship('User', secondary='user_has_subject')
+
     def __init__(self, subject_code: str, subject_name: str):
-        subject = vc.Subject(self.subject_id, subject_code, subject_name)
+        subject = vc.Subject(subject_code, subject_name)
         self.subject_code = subject.get_subject_code()
         self.subject_name = subject.get_subject_name()
 
@@ -69,3 +77,20 @@ class Subject(Base):
                f"subject_code={self.subject_code}, " \
                f"subject_name={self.subject_name}" \
                f")>"
+
+
+class UserHasSubject(Base):
+    __tablename__ = 'user_has_subject'
+    user_id = Column(Integer, ForeignKey('users.user_id'), primary_key=True)
+    subject_id = Column(Integer, ForeignKey('subjects.subject_id'), primary_key=True)
+
+    def __init__(self, user_id: int, subject_id: int):
+        self.user_id = user_id
+        self.subject_id = subject_id
+
+
+def init_db():
+    Base.metadata.create_all(bind=engine)
+
+
+init_db()

@@ -3,27 +3,18 @@ from datetime import datetime
 
 
 class User:
-    def __init__(self, user_id: int, first_name: str, surname: str, dob: datetime, email: str, password: str):
-        self.__user_id = None
+    def __init__(self, first_name: str, surname: str, dob: datetime, email: str, password: str):
         self.__first_name = None
         self.__surname = None
         self.__dob = None
         self.__email = None
         self.__password = None
 
-        self.set_user_id(user_id)
         self.set_first_name(first_name)
         self.set_surname(surname)
         self.set_dob(dob)
         self.set_email(email)
         self.set_password(password)
-
-    def get_user_id(self) -> int:
-        return self.__user_id
-
-    def set_user_id(self, user_id: int):
-        self.__validate_user_id(user_id)
-        self.__user_id = user_id
 
     def get_first_name(self) -> str:
         return self.__first_name
@@ -59,14 +50,6 @@ class User:
     def set_password(self, password: str):
         self.__validate_password(password)
         self.__password = password
-
-    def __validate_user_id(self, user_id: int):
-        """Validation for user ID"""
-        if not isinstance(user_id, int):
-            raise TypeError("Invalid datatype for user ID.")
-
-        if user_id < 1:
-            raise ValueError("User ID cannot be less than 1.")
 
     def __validate_first_name(self, first_name: str):
         """Validation for first name"""
@@ -144,21 +127,12 @@ class User:
 
 
 class Subject:
-    def __init__(self, subject_id: int, subject_code: str, subject_name: str):
-        self.__subject_id = None
+    def __init__(self, subject_code: str, subject_name: str):
         self.__subject_code = None
         self.__subject_name = None
 
-        self.set_subject_id(subject_id)
         self.set_subject_code(subject_code)
         self.set_subject_name(subject_name)
-
-    def get_subject_id(self) -> int:
-        return self.__subject_id
-
-    def set_subject_id(self, subject_id: int):
-        self.__validate_subject_id(subject_id)
-        self.__subject_id = subject_id
 
     def get_subject_code(self) -> str:
         return self.__subject_code
@@ -212,7 +186,7 @@ class Subject:
             else:
                 raise ValueError("Invalid subject code. " + char + " is an invalid character.")
 
-        letter_code = letter_code.upper()
+        letter_code = letter_code.upper()  # Sets subject code to upper case letters
 
         if letter_code not in valid_letter_codes:
             raise ValueError(letter_code + " is not a valid letter code.")
