@@ -198,7 +198,7 @@ form {
 
 .controls {
     display: flex;
-    justify-content: space-between;
+    justify-content: left;
     align-items: center;
 }
 
@@ -215,6 +215,10 @@ form {
 
 .controls input[type="submit"]:hover {
     background-color: var(--secondary-clr)
+}
+
+.links {
+    margin-left: 10px;
 }
 
 .control-link {

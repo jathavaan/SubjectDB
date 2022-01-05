@@ -22,7 +22,10 @@ class Retrieve:
 
     def retrieve_subjects(self):
         """Gets all subjects from the subject table"""
-        subjects = session.query(Subject)
+        subjects = session.query(Subject). \
+            order_by(Subject.subject_code.asc()) \
+            .order_by(Subject.subject_name.asc())
+
         subjects = [subject for subject in subjects]
 
         return subjects
@@ -58,6 +61,8 @@ class Retrieve:
             Subject.subject_code.like('%' + query + '%'),
             Subject.subject_name.like('%' + query + '%')
         )) \
+            .order_by(Subject.subject_code.asc()) \
+            .order_by(Subject.subject_name.asc()) \
             .all()
 
         results = [result for result in results]
@@ -73,6 +78,8 @@ class Retrieve:
             .join(Subject) \
             .join(Grade) \
             .filter(User.user_id == user_id) \
+            .order_by(Subject.subject_code.asc()) \
+            .order_by(Subject.subject_name.asc()) \
             .all()
 
         results = [result for result in results]
@@ -89,9 +96,9 @@ class Retrieve:
 
         results = session.query(Subject) \
             .filter(or_(
-            Subject.subject_code.like('%' + query + '%'),
-            Subject.subject_name.like('%' + query + '%')
-        )) \
+            Subject.subject_code.like('%' + query + '%'), Subject.subject_name.like('%' + query + '%'))) \
+            .order_by(Subject.subject_code.asc()) \
+            .order_by(Subject.subject_name.asc()) \
             .all()
 
         results = [result for result in results]
@@ -221,6 +228,24 @@ class Delete:
 
         return deleted
 
+    def user_delete_subject(self, user_id: int, subject_id: int):
+        if not isinstance(user_id, int):
+            raise TypeError("Invalid datatype for user ID.")
+
+        if not isinstance(subject_id, int):
+            raise TypeError("Invalid datatype for subject ID")
+
+        deleted = False
+        links = self.r.retrieve_user_has_subject()
+
+        for link in links:
+            if link.user_id == user_id and link.subject_id == subject_id:
+                session.delete(link)
+                session.commit()
+                deleted = True
+
+        return deleted
+
     def delete_link(self, user_id=0, subject_id=0):
         """Deletes link from user_has_subject table. Returns True if link was successfully deleted"""
         if not isinstance(user_id, int):
@@ -290,8 +315,34 @@ class Modify:
                 .update({Subject.subject_name: subject_name})
 
             updated = True
-
+        session.commit()
         return updated
+
+    def user_modify_subject(self, user_id: int, subject_id: int, grade_id: int):
+        if not isinstance(user_id, int):
+            raise TypeError("Invalid datatype for user ID.")
+
+        if not isinstance(subject_id, int):
+            raise TypeError("Invalid datatype for subject ID.")
+
+        if not isinstance(grade_id, int):
+            raise TypeError("Invalid datatype for grade ID.")
+
+        links = self.r.retrieve_user_has_subject()
+
+        for link in links:
+            link_user_id = link.user_id
+            link_subject_id = link.subject_id
+
+            if link_user_id == user_id and link_subject_id == subject_id:
+                session.query(UserHasSubject) \
+                    .filter(UserHasSubject.user_id == link_user_id) \
+                    .filter(UserHasSubject.subject_id == link_subject_id) \
+                    .update({UserHasSubject.grade_id: grade_id})
+                return True
+
+        session.commit()
+        return False
 
 
 """

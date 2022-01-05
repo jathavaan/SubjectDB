@@ -34,12 +34,13 @@
         <input type="submit" value="Search">
     </form>
     <div class="links">
-        <a class="control-link" href="#">Edit</a>
-        <a class="control-link" href="{{url_for('user.add_subject')}}">Add</a>
-        <a class="control-link" href="#">Delete</a>
+        <a class="control-link" href="{{url_for('user.user_add_subject')}}">Add subjects</a>
     </div>
 </div>
 
+{% if subjects|length == 0 %}
+    <p>No subjects in your database. Click <a href="{{url_for('user.user_add_subject')}}">here</a> to add subjects.</p>
+{% else %}
 <table class="table">
     <tr>
         <th>Subject code</th>
@@ -47,19 +48,20 @@
         <th>Grade</th>
         <th></th>
     </tr>
-    {% for user_subject in subjects %}
-        {% set link, user, subject, grade = user_subject %}
-        <tr>
-            <td>{{subject.subject_code}}</td>
-            <td>{{subject.subject_name}}</td>
-            <td>{{grade.grade_value}}</td>
-            <td>
-                <form method="post" action="#">
-                    <input type="submit" name="" class="edit-btn" value="Edit">
-                </form>
-            </td>
-        </tr>
-    {% endfor %}
+        {% for user_subject in subjects %}
+            {% set link, user, subject, grade = user_subject %}
+            <tr>
+                <td>{{subject.subject_code}}</td>
+                <td>{{subject.subject_name}}</td>
+                <td>{{grade.grade_value}}</td>
+                <td>
+                    <a href="{{url_for('user.user_edit_subject', subject_id=subject.subject_id)}}">Edit</a>
+                </td><td>
+                    <a href="{{url_for('user.user_delete_subject', subject_id=subject.subject_id)}}">Delete</a>
+                </td>
+            </tr>
+        {% endfor %}
+    {% endif %}
 </table>
 {% endblock %}
 

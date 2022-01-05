@@ -177,7 +177,7 @@ class Subject:
             raise ValueError("Subject code cannot be empty.")
 
         valid_letter_codes = [
-            "TDT", "TET", "TFE", "TMA", "TTK", "TTM", "TMT", "TTT", "TBA", "TEP", "TGB",
+            "TDT", "TET", "TFE", "TFY", "TMA", "TTK", "TTM", "TMT", "TTT", "TBA", "TEP", "TGB",
             "TKT", "TME", "TMM", "TMR", "TPD", "TPG", "TPK", "TVM", "TIØ",
             "BK", "AAR", "EXPH", "EXFAC", "HFEL", "AFR", "ALIT", "ANT",
             "ARK", "AVS", "DANS", "DRA", "ENG", "FI", "FFV", "FILM", "FON",

@@ -1,6 +1,14 @@
-{% extends 'admin_base.html' %}
-{% block title %}Subject - Edit{% endblock %}
+{% extends 'base.html' %}
+{% block title %}Subjects - Edit{% endblock %}
 
+{% block navbar_links %}
+<li>
+    <a href="{{url_for('user.subjects')}}">Subjects</a>
+</li>
+<li>
+    <a href="{{url_for('user.profile')}}">Profile</a>
+</li>
+{% endblock %}
 
 {% block greeting %}
 <div class="small-greeting">
@@ -21,9 +29,12 @@
 {% block content %}
 <div class="general-form">
     <form method="POST">
-        <input type="text" name="subject_code" placeholder="Subject code">
-        <input type="text" name="subject_name" placeholder="Subject name">
-        <input type="submit" value="Submit changes">
+        <select name="select-grade">
+            {% for grade in grades %}
+                <option value="{{grade.grade_id}}">{{grade.grade_value}}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="Change grade">
     </form>
 </div>
 {% endblock %}
