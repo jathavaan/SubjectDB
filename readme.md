@@ -1,0 +1,1 @@
+SubjectDB is a subject database written in Python. It is a website that uses Flask and SQLAlchemy. The project was started January 1. 2022, and is supposed to be a project to learn Flask, SQLAlchemy and later on React.
