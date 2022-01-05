@@ -1,6 +1,15 @@
 {% extends 'base.html' %}
 {% block title %}Subjects - Add{% endblock %}
 
+{% block navbar_links %}
+<li>
+    <a href="{{url_for('user.subjects')}}">Subjects</a>
+</li>
+<li>
+    <a href="{{url_for('user.profile')}}">Profile</a>
+</li>
+{% endblock %}
+
 {% block greeting %}
 <div class="small-greeting">
     <h1>Welcome, {{session['first_name']}} {{session['surname']}}</h1>

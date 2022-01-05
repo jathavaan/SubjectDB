@@ -40,6 +40,7 @@ class Retrieve:
         return subjects
 
     def search_user_subjects(self, user_id: int, query: str):
+        """Returns a search result for user subjects"""
         if not isinstance(user_id, int):
             raise TypeError("Invalid datatype for user ID.")
 
@@ -63,6 +64,7 @@ class Retrieve:
         return results
 
     def retrieve_user_subjects(self, user_id: int):
+        """Returns the subjects the user has added to their database and the grade"""
         if not isinstance(user_id, int):
             raise TypeError("Invalid datatype for user ID.")
 
@@ -78,6 +80,7 @@ class Retrieve:
         return results
 
     def search_subjects(self, query: str):
+        """Returns a search result for admin subjects"""
         if not isinstance(query, str):
             raise TypeError("Invalid datatype for query.")
 
@@ -86,9 +89,9 @@ class Retrieve:
 
         results = session.query(Subject) \
             .filter(or_(
-                Subject.subject_code.like('%' + query + '%'),
-                Subject.subject_name.like('%' + query + '%')
-            )) \
+            Subject.subject_code.like('%' + query + '%'),
+            Subject.subject_name.like('%' + query + '%')
+        )) \
             .all()
 
         results = [result for result in results]
@@ -247,6 +250,48 @@ class Delete:
                     deleted = True
 
         return deleted
+
+
+class Modify:
+    def __init__(self):
+        self.r = Retrieve()
+
+    def admin_modify_subject(self, subject_id: int, subject_code=None, subject_name=None):
+        if not isinstance(subject_id, int):
+            raise TypeError("Invalid datatype for subject ID.")
+
+        sub = next(filter(lambda subject: subject.subject_id == subject_id, self.r.retrieve_subjects()))
+
+        if subject_code is not None:
+            if not isinstance(subject_code, str):
+                raise TypeError("Invalid datatype for subject code")
+
+            Subject(subject_code, sub.subject_name)  # Subject code validation
+
+        updated = False
+
+        if subject_name is not None:
+            if not isinstance(subject_name, str):
+                raise TypeError("Invalid datatype for subject name.")
+
+            Subject(sub.subject_code, subject_name)  # Subject name validation
+
+        # Checks if the user wants to edit subject code, subject name or both
+        if subject_code is not None:
+            session.query(Subject) \
+                .filter(Subject.subject_id == subject_id) \
+                .update({Subject.subject_code: subject_code})
+
+            updated = True
+
+        if subject_name is not None:
+            session.query(Subject) \
+                .filter(Subject.subject_id == subject_id) \
+                .update({Subject.subject_name: subject_name})
+
+            updated = True
+
+        return updated
 
 
 """

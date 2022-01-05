@@ -1,0 +1,28 @@
+{% extends 'admin_base.html' %}
+{% block title %}Subject - Edit{% endblock %}
+
+{% block greeting %}
+<div class="small-greeting">
+    <h1>{{subject.subject_code}} {{subject.subject_name}}</h1>
+
+    <div class="message">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <p>{{message}}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="general-form">
+    <form method="POST">
+        <input type="text" name="subject_code" placeholder="Subject code">
+        <input type="text" name="subject_name" placeholder="Subject name">
+        <input type="submit" value="Submit changes">
+    </form>
+</div>
+{% endblock %}

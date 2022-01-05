@@ -97,9 +97,23 @@ h1 {
     width: 100%;
 }
 
+.table tr:hover {
+    font-weight: bold;
+}
+
 .table td, th {
     padding: 5px 20px 5px 0px;
     text-align: left;
+
+}
+
+.table a {
+    text-decoration: none;
+    color: var(--text-clr);
+}
+
+.table a:hover {
+    text-decoration: underline;
 }
 
 .edit-btn {
@@ -150,7 +164,8 @@ form {
     align-items: center;
     flex-direction: column;
     margin-top: 40px;
-    height: 100vh;
+
+    height: 50vh;
 }
 
 .general-form form {
@@ -170,7 +185,8 @@ form {
     border: 0;
 }
 
-.general-form input:focus {
+.general-form input:focus, select:focus {
+    border: 0;
     outline: none;
 }
 
@@ -186,25 +202,53 @@ form {
     align-items: center;
 }
 
-.control-btn {
+.controls input {
+    padding: 5px 10px;
+    border: 0;
+    outline: none;
+    background-color: #ffffff;
+}
+
+.controls input[type="text"] {
+    width: 400px;
+}
+
+.controls input[type="submit"]:hover {
+    background-color: var(--secondary-clr)
+}
+
+.control-link {
+    text-decoration: none;
+    color: var(--text-clr);
     width: 20%;
     background-color: transparent;
     border: 0;
     outline: none;
 }
 
-.control-btn:hover {
-    text-decoration: underline;
-}
-
-.control-link {
-    text-decoration: none;
-    color: var(--text-clr);
-}
-
 .control-link:hover {
     text-decoration: underline;
 }
 
+
 /* Users */
+
+/* ADMIN */
+
+.add-subject-input {
+    outline: none;
+    border: 0;
+    width: 100%;
+    padding: 5px 10px;
+    background-color: #ffffff;
+}
+
+.add-subject-input:active {
+    border: 0;
+    outline: none;
+}
+
+.add-subject-submit:hover {
+    background-color: var(--secondary-clr);
+}
 

@@ -77,12 +77,12 @@ def add_subject():
         try:
             subject_id = int(request.form.get('subject-select'))
             grade_id = int(request.form.get('grade-select'))
+            subject = next(filter(lambda subject: subject.subject_id == subject_id, subjects))
 
             if ins.insert_link(user_id=user_id, subject_id=subject_id, grade_id=grade_id):
-                flash("Added subject")
-                return render_template('add_subject.html', subjects=subjects, grades=grades)
+                flash(f"Added {subject.subject_code} {subject.subject_name}")
+                return redirect(url_for('user.subjects'))
             else:
-                subject = next(filter(lambda subject: subject.subject_id == subject_id, subjects))
 
                 flash(f"{subject.subject_code} {subject.subject_name} has already been added to your database.")
                 return render_template('add_subject.html', subjects=subjects, grades=grades)
