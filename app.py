@@ -1,5 +1,6 @@
 from flask import Flask, session, redirect, url_for, flash
 
+from model.db.database import init_db
 from views.admin.admin import admin
 from views.login_and_register.login_and_register import login_and_register
 from views.user.user import user
@@ -31,4 +32,5 @@ def logout():
 
 
 if __name__ == "__main__":
+    init_db()
     app.run(debug=True)

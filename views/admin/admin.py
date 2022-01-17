@@ -65,9 +65,10 @@ def admin_add_subject():
     if request.method == 'POST':
         subject_code = request.form.get('add-subject-code').upper()
         subject_name = request.form.get('add-subject-name')
+        credits = float(request.form.get('add-subject-credits'))
 
         try:
-            if ins.insert_subject(subject_code, subject_name):
+            if ins.insert_subject(subject_code, subject_name, credits):
                 flash(f"Successfully added {subject_code} {subject_name} to database.")
             else:
                 flash(f"Failed to add {subject_code} {subject_name}. The subject may have already been added.")
@@ -93,10 +94,29 @@ def admin_edit_subject(subject_id=None):
     subject = next(filter(lambda sub: sub.subject_id == subject_id, ret.retrieve_subjects()))
     old_subject_code = subject.subject_code
     old_subject_name = subject.subject_name
+    old_credits = None
+
+    if subject.credits is None:
+        old_credits = float(0)
+    else:
+        old_credits = subject.credits
 
     if request.method == 'POST':
         subject_code = request.form.get('subject_code').upper()
         subject_name = request.form.get('subject_name')
+        credits = request.form.get('subject_credits')
+
+        flash_credits = False  # Credits will always be updated. This variable decides whether the user gets a message
+        # about the update
+
+        if credits:
+            credits = float(credits)  # Converting credits to float if the user user the credits input
+            flash_credits = True
+        else:
+            if subject.credits is None:
+                credits = float(0)
+            else:
+                credits = float(subject.credits)
 
         try:
             if len(subject_code) > 0 and len(subject_name) > 0:
@@ -105,12 +125,19 @@ def admin_edit_subject(subject_id=None):
             elif len(subject_code) > 0 and len(subject_name) == 0:
                 mod.admin_modify_subject(subject_id, subject_code=subject_code)
                 flash(
-                    f"Changed {old_subject_code} {old_subject_name} to {subject_code} {old_subject_name}.")
+                    f"Changed {old_subject_code} {old_subject_name} to {subject_code} {old_subject_name}."
+                )
             elif len(subject_code) == 0 and len(subject_name) > 0:
                 mod.admin_modify_subject(subject_id, subject_name=subject_name)
                 flash(f"Changed {old_subject_code} {old_subject_name} to {old_subject_code} {subject_name}.")
 
-            return redirect(url_for('admin.admin_subjects'))
+            if flash_credits:
+                mod.admin_modify_subject(subject_id=subject_id, credits=credits)
+                flash(f"Changed credits from {old_credits} to {credits}.")
+            else:
+                mod.admin_modify_subject(subject_id=subject_id, credits=credits)
+
+                return redirect(url_for('admin.admin_subjects'))
         except TypeError as e:
             flash(str(e))
             return redirect(url_for('admin.admin_edit_subject', subject_id=subject.subject_id))

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram height="1000" made_with_version="1.6" name="Default" width="1420">
+<entity id="0" is_weak="false" name="User" x="251" y="19">
+<attributes>
+<attribute is_hidden="false" is_key="true" name="user_id" type=""/>
+<attribute is_hidden="false" is_key="false" name="first_name" type=""/>
+<attribute is_hidden="false" is_key="false" name="surname" type=""/>
+<attribute is_hidden="false" is_key="false" name="dob" type=""/>
+<attribute is_hidden="false" is_key="false" name="email" type=""/>
+<attribute is_hidden="false" is_key="false" name="password" type=""/>
+<attribute is_hidden="false" is_key="false" name="is_admin" type=""/>
+</attributes>
+</entity>
+<entity id="1" is_weak="false" name="Subject" x="576" y="47">
+<attributes>
+<attribute is_hidden="false" is_key="true" name="subject_id" type=""/>
+<attribute is_hidden="false" is_key="false" name="subject_code" type=""/>
+<attribute is_hidden="false" is_key="false" name="subject_name" type=""/>
+<attribute is_hidden="false" is_key="false" name="credits" type=""/>
+</attributes>
+</entity>
+<entity id="5" is_weak="false" name="Grade" x="353" y="161">
+<attributes>
+<attribute is_hidden="false" is_key="true" name="grade_id" type=""/>
+<attribute is_hidden="false" is_key="false" name="grade_value" type=""/>
+</attributes>
+</entity>
+<entity id="7" is_weak="false" name="Task" x="65" y="154">
+<attributes>
+<attribute is_hidden="false" is_key="true" name="task_id" type=""/>
+<attribute is_hidden="false" is_key="false" name="task_content" type=""/>
+<attribute is_hidden="false" is_key="false" name="due_date" type=""/>
+<attribute is_hidden="false" is_key="false" name="is_finished" type=""/>
+</attributes>
+</entity>
+<diamond id="2" is_weak="false" name="UserHasSubject" x="373" y="65">
+<attributes>
+<attribute name="exam_date" type=""/>
+<attribute name="" type=""/>
+</attributes>
+</diamond>
+<diamond id="8" is_weak="false" name="UserHasTask" x="92" y="63">
+<attributes>
+<attribute name="date_created" type=""/>
+</attributes>
+</diamond>
+<line cardinality_string="(0,n)" has_u="false" id="3" is_weak="false" role="" style="0" turned="false">
+<connection connection_side="2" direction="0" object_id="0" relation_point_x="319" relation_point_y="87"/>
+<connection connection_side="0" direction="0" object_id="2" relation_point_x="373" relation_point_y="81"/>
+</line>
+<line cardinality_string="(0,n)" has_u="false" id="4" is_weak="false" role="" style="0" turned="false">
+<connection connection_side="0" direction="0" object_id="1" relation_point_x="576" relation_point_y="92"/>
+<connection connection_side="2" direction="0" object_id="2" relation_point_x="405" relation_point_y="81"/>
+</line>
+<line cardinality_string="(1,1)" has_u="false" id="6" is_weak="false" role="" style="0" turned="false">
+<connection connection_side="1" direction="1" object_id="5" relation_point_x="392" relation_point_y="161"/>
+<connection connection_side="3" direction="1" object_id="2" relation_point_x="389" relation_point_y="97"/>
+</line>
+<line cardinality_string="(0,n)" has_u="false" id="9" is_weak="false" role="" style="0" turned="false">
+<connection connection_side="0" direction="0" object_id="0" relation_point_x="251" relation_point_y="87"/>
+<connection connection_side="2" direction="0" object_id="8" relation_point_x="124" relation_point_y="79"/>
+</line>
+<line cardinality_string="(1,1)" has_u="false" id="10" is_weak="false" role="" style="0" turned="false">
+<connection connection_side="1" direction="1" object_id="7" relation_point_x="105" relation_point_y="154"/>
+<connection connection_side="3" direction="1" object_id="8" relation_point_x="108" relation_point_y="95"/>
+</line>
+</diagram>

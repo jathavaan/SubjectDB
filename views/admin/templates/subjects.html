@@ -17,6 +17,7 @@
     <tr>
         <th>Subject Code</th>
         <th>Subject name</th>
+        <th>Credits</th>
         <th></th>
         <th></th>
     </tr>
@@ -24,6 +25,7 @@
             <form action="{{url_for('admin.admin_add_subject')}}" class="admin-add-subject-form" method="post">
                 <td><input class="add-subject-input" name="add-subject-code" type="text" placeholder="Subject code" required></td>
                 <td><input class="add-subject-input" name="add-subject-name" type="text" placeholder="Subject name" required></td>
+                <td><input class="add-subject-input" name="add-subject-credits" type="number" min="0" step=".1" placeholder="Credits" required</td>
                 <td colspan="2"><input class="add-subject-input add-subject-submit" type="submit" value="Add subject"></td>
             </form>
         </tr>
@@ -31,6 +33,7 @@
         <tr>
             <td>{{subject.subject_code}}</td>
             <td>{{subject.subject_name}}</td>
+            <td>{{subject.credits}}</td>
             <td>
                 <a href="{{url_for('admin.admin_edit_subject', subject_id=subject.subject_id)}}">Edit</a>
             </td>

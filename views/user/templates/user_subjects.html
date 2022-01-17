@@ -46,6 +46,7 @@
         <th>Subject code</th>
         <th>Subject name</th>
         <th>Grade</th>
+        <th>Exam date</th>
         <th></th>
     </tr>
         {% for user_subject in subjects %}
@@ -54,6 +55,7 @@
                 <td>{{subject.subject_code}}</td>
                 <td>{{subject.subject_name}}</td>
                 <td>{{grade.grade_value}}</td>
+                <td>{{link.exam_date}}</td>
                 <td>
                     <a href="{{url_for('user.user_edit_subject', subject_id=subject.subject_id)}}">Edit</a>
                 </td><td>

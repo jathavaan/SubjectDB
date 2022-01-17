@@ -3,6 +3,7 @@ from urllib import request
 from flask import Blueprint, session, g, render_template, redirect, url_for, request, flash
 
 from model.db.alter_database import Retrieve, Insert, Delete, Modify
+from model.db.hande_database import Calculate
 
 user = Blueprint('user', __name__, static_folder="static", template_folder="templates")
 
@@ -10,6 +11,7 @@ ret = Retrieve()
 ins = Insert()
 mod = Modify()
 dlt = Delete()
+cal = Calculate()
 
 
 @user.before_request
@@ -148,4 +150,11 @@ def profile():
     if 'email' not in session:
         return redirect(url_for('login_and_register.login'))
 
-    return render_template('profile.html')
+    user_id = g.user.user_id
+    average_grade = cal.calculate_user_average_grade(user_id)
+    top_grades = ret.retrieve_top_grades(user_id)
+
+    if average_grade == float(0):
+        average_grade = "N/A"
+
+    return render_template('profile.html', average_grade=average_grade, top_grades=top_grades)

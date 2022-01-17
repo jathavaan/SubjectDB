@@ -24,6 +24,49 @@
         {% endwith %}
     </div>
 
+    <div class="dashboard">
+        <div class="subjects">
+            <section class="dashboard-content">
+                <h3>Ongoing subjects</h3>
+                <p>Contains subject code, subject name, exam date</p>
+                <p>Contains subject code, subject name, exam date</p>
+                <p>Contains subject code, subject name, exam date</p>
+            </section>
+
+            <section class="dashboard-content">
+                <h3>GPA</h3>
+                <p>{{average_grade}}</p>
+                <h3>My top subjects</h3>
+                {% if top_grades|length == 0%}
+                    <p>N/A</p>
+                {% else %}
+                    <table class="table">
+                        <tr>
+                            <th>Subject code</th>
+                            <th>Subject name</th>
+                            <th>Credits</th>
+                            <th>Grade</th>
+                        </tr>
+                    {% for grade in top_grades %}
+                        <tr>
+                            <td>{{grade['subject_code']}}</td>
+                            <td>{{grade['subject_name']}}</td>
+                            <td>{{grade['credits']}}</td>
+                            <td>{{grade['grade']}}</td>
+                        </tr>
+                        <p>  </p>
+                    {% endfor %}
+                    </table>
+                {% endif %}
+            </section>
+        </div>
+
+        <section class="dashboard-content tasks">
+            <h3>My tasks</h3>
+            <p>A system for assignments and other types of tasks</p>
+        </section>
+    </div>
+
     <div id="scroll">
         <img src="{{url_for('static', filename='images/icons/expand.svg')}}" alt="Scroll">
     </div>

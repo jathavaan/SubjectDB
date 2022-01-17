@@ -62,9 +62,6 @@ class User:
     def get_admin(self) -> bool:
         return self.__is_admin
 
-
-
-
     def __validate_first_name(self, first_name: str):
         """Validation for first name"""
         if not isinstance(first_name, str):
@@ -115,6 +112,7 @@ class User:
 
         if not email or email is None:
             raise ValueError("E-mail cannot be empty")
+
         """
         pattern = re.compile("^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$")
         if not pattern.match(email):
@@ -141,12 +139,14 @@ class User:
 
 
 class Subject:
-    def __init__(self, subject_code: str, subject_name: str):
+    def __init__(self, subject_code: str, subject_name: str, credits: float):
         self.__subject_code = None
         self.__subject_name = None
+        self.__credits = None
 
         self.set_subject_code(subject_code)
         self.set_subject_name(subject_name)
+        self.set_credits(credits)
 
     def get_subject_code(self) -> str:
         return self.__subject_code
@@ -161,6 +161,20 @@ class Subject:
     def set_subject_name(self, subject_name: str):
         self.__validate_subject_name(subject_name)
         self.__subject_name = subject_name
+
+    def get_credits(self) -> float:
+        return self.__credits
+
+    def set_credits(self, credits: float):
+        if not isinstance(credits, float):
+            raise TypeError("Invalid datatype for credits.")
+
+        valid_credits = [0, 7.5, 15, 30]
+
+        if credits not in valid_credits:
+            raise ValueError("Invalid value for credits. It has to be one of the following: 0, 7.5, 15 or 30")
+
+        self.__credits = credits
 
     def __validate_subject_id(self, subject_id: int):
         if not isinstance(subject_id, int):
@@ -186,7 +200,7 @@ class Subject:
             "SAM", "SWA", "TYSK", "RFEL", "IT", "MA", "ST", "GEOL", "AK",
             "BI", "BO", "FY", "KJ", "ZO", "SFEL", "AFR", "FPED", "GEOG",
             "HLS", "IDR", "MVIT", "PED", "POL", "PPU", "PSY", "PSYPRO",
-            "SARB", "SAM", "SANT", "SANT", "SOS", "SPED", "SØK", "ØKAD", "MD"
+            "SARB", "SAM", "SANT", "SANT", "SOS", "SPED", "SØK", "ØKAD", "MD", "HMS"
         ]
 
         letter_code = ""
@@ -215,6 +229,6 @@ class Subject:
         if not subject_name or subject_name is None:
             raise ValueError("Subject name cannot be empty")
 
-        pattern = re.compile("^[\.a-zA-Z0-9,!? ]*$")
+        pattern = re.compile("^[\.a-zæøåA-ZÆØÅ0-9,!? ]*$")
         if not pattern.match(subject_name):
             raise ValueError("Invalid subject name.")

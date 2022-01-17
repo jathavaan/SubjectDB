@@ -2,3 +2,5 @@ INSERT INTO "main"."users" ("user_id", "first_name", "surname", "dob", "email", 
 INSERT INTO "main"."users" ("user_id", "first_name", "surname", "dob", "email", "password", "is_admin") VALUES ('2', 'Jonas', 'Store', '1972-03-12 00:00:00.000000', 'jonas@regjeringen.no', 'jonasLederNorge123', '0');
 INSERT INTO "main"."users" ("user_id", "first_name", "surname", "dob", "email", "password", "is_admin") VALUES ('3', 'Kong', 'Harald', '1939-09-08 00:00:00.000000', 'kongen@norge.no', 'vbKongenAvNorge123', '0');
 INSERT INTO "main"."users" ("user_id", "first_name", "surname", "dob", "email", "password", "is_admin") VALUES ('4', 'Not', 'Admin', '2001-07-12 00:00:00.000000', 'not@admin.com', 'notAdmin123', '0');
+INSERT INTO "main"."users" ("user_id", "first_name", "surname", "dob", "email", "password", "is_admin") VALUES ('5', 'Shankarr', 'Vinajagam', '1967-11-09 00:00:00.000000', 'shankarrv@gmail.com', 'Astra21345', '0');
+INSERT INTO "main"."users" ("user_id", "first_name", "surname", "dob", "email", "password", "is_admin") VALUES ('6', 'Jathavaan', 'Shankarr', '2001-07-12 00:00:00.000000', 'jathavas@stud.ntnu.no', 'Jathavaan12', '0');

@@ -57,6 +57,7 @@ class Retrieve:
             .join(User) \
             .join(Subject) \
             .join(Grade) \
+            .filter(User.user_id == user_id) \
             .filter(or_(
             Subject.subject_code.like('%' + query + '%'),
             Subject.subject_name.like('%' + query + '%')
@@ -116,6 +117,34 @@ class Retrieve:
 
         return grades
 
+    def retrieve_top_grades(self, user_id: int):
+        """The four subjects with the highets grades"""
+        grades = session.query(UserHasSubject, User, Subject, Grade) \
+            .join(User) \
+            .join(Subject) \
+            .join(Grade) \
+            .filter(User.user_id == user_id) \
+            .order_by(Grade.grade_value.asc()) \
+            .order_by(Subject.credits.desc()) \
+            .limit(4)
+
+        grades = [grade for grade in grades]
+
+        results = []
+
+        for _ in grades:
+            link, user, subject, grade = _
+            data = {
+                'subject_code': subject.subject_code,
+                'subject_name': subject.subject_name,
+                'credits': subject.credits,
+                'grade': grade.grade_value
+            }
+
+            results.append(data)
+
+        return results
+
 
 class Insert:
 
@@ -141,7 +170,7 @@ class Insert:
 
         return True
 
-    def insert_subject(self, subject_code: str, subject_name: str):
+    def insert_subject(self, subject_code: str, subject_name: str, credits: float):
         """
         Inserts subject into database. Checks if a subject with the same subject code has been added.
         Returns True if data was added successfully
@@ -151,7 +180,7 @@ class Insert:
         if len(self.r.retrieve_subject_by_code(subject_code)) > 0:
             return False
 
-        subject = Subject(subject_code, subject_name)
+        subject = Subject(subject_code, subject_name, credits)
 
         session.add(subject)
         session.commit()
@@ -281,7 +310,7 @@ class Modify:
     def __init__(self):
         self.r = Retrieve()
 
-    def admin_modify_subject(self, subject_id: int, subject_code=None, subject_name=None):
+    def admin_modify_subject(self, subject_id: int, subject_code=None, subject_name=None, credits=float(0)):
         if not isinstance(subject_id, int):
             raise TypeError("Invalid datatype for subject ID.")
 
@@ -291,15 +320,21 @@ class Modify:
             if not isinstance(subject_code, str):
                 raise TypeError("Invalid datatype for subject code")
 
-            Subject(subject_code, sub.subject_name)  # Subject code validation
-
-        updated = False
+            Subject(subject_code, sub.subject_name, credits)  # Subject code validation
 
         if subject_name is not None:
             if not isinstance(subject_name, str):
                 raise TypeError("Invalid datatype for subject name.")
 
-            Subject(sub.subject_code, subject_name)  # Subject name validation
+            Subject(sub.subject_code, subject_name, credits)  # Subject name validation
+
+        if credits is not None:
+            if not isinstance(credits, float) or credits is None:
+                raise TypeError("Invalid datatype for credits.")
+
+            Subject(sub.subject_code, sub.subject_name, credits)  # Credits validation
+
+        updated = False
 
         # Checks if the user wants to edit subject code, subject name or both
         if subject_code is not None:
@@ -315,6 +350,12 @@ class Modify:
                 .update({Subject.subject_name: subject_name})
 
             updated = True
+
+        if credits is not None:
+            session.query(Subject) \
+                .filter(Subject.subject_id == subject_id) \
+                .update({Subject.credits: credits})
+
         session.commit()
         return updated
 
